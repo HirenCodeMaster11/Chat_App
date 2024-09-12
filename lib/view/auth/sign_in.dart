@@ -14,8 +14,14 @@ class SignIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery
+        .of(context)
+        .size
+        .height;
+    double w = MediaQuery
+        .of(context)
+        .size
+        .width;
 
     var controller = Get.put(AuthController());
 
@@ -93,6 +99,7 @@ class SignIn extends StatelessWidget {
                     child: TextField(
                       controller: controller.txtEmail,
                       cursorColor: Colors.white,
+                      style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                           prefixIcon: Icon(Icons.mail, color: Colors.white),
                           labelText: 'Your email',
@@ -114,42 +121,43 @@ class SignIn extends StatelessWidget {
                     height: h * 0.018,
                   ),
                   Obx(
-                    () => FadeInLeft(
-                      duration: Duration(seconds: 1),
-                      child: TextField(
-                        controller: controller.txtPassword,
-                        obscureText: controller.passwordVisible.value,
-                        cursorColor: Colors.white,
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.lock,color: Colors.white),
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                controller.passwordVisible.value =
+                        () =>
+                        FadeInLeft(
+                          duration: Duration(seconds: 1),
+                          child: TextField(
+                            style: TextStyle(color: Colors.white),
+                            controller: controller.txtPassword,
+                            obscureText: controller.passwordVisible.value,
+                            cursorColor: Colors.white,
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(
+                                    Icons.lock, color: Colors.white),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    controller.passwordVisible.value =
                                     !controller.passwordVisible.value;
-                              },
-                              icon: (controller.passwordVisible.value)
-                                  ? Icon(
-                                      Icons.visibility_off,color: Colors.white,
-                                    )
-                                  : Icon(
-                                      Icons.visibility,color: Colors.white,
-                                    ),
-                            ),
-                            labelText: 'Password',
-                            labelStyle: TextStyle(
-                                fontSize: w * 0.038,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                    color: Colors.white, width: 2))),
-                      ),
-                    ),
+                                  },
+                                  icon: (controller.passwordVisible.value)
+                                      ? Icon(
+                                      Icons.visibility_off, color: Colors.white)
+                                      : Icon(
+                                      Icons.visibility, color: Colors.white),
+                                ),
+                                labelText: 'Password',
+                                labelStyle: TextStyle(
+                                    fontSize: w * 0.038,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(
+                                        color: Colors.white, width: 2))),
+                          ),
+                        ),
                   ),
                   SizedBox(
                     height: h * 0.05,
@@ -166,7 +174,8 @@ class SignIn extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
                           'OR',
-                          style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500),
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w500),
                         ),
                       ),
                       Expanded(
@@ -186,7 +195,7 @@ class SignIn extends StatelessWidget {
                         await GoogleAuthService.googleAuthService
                             .signInWithGoogle();
                         User? currentUser =
-                            AuthService.authService.getCurrentUser();
+                        AuthService.authService.getCurrentUser();
 
                         if (currentUser != null) {
                           UserModal user = UserModal(
@@ -205,8 +214,17 @@ class SignIn extends StatelessWidget {
                         }
                       } catch (e) {
                         print('Google Sign-In failed: $e');
-                        Get.snackbar('SignIn failed!',
-                            'Google Sign-In failed. Please try again.');
+                        Get.snackbar(
+                          'SignIn failed!',
+                          'Google Sign-In failed. Please try again.',
+                          backgroundColor: Colors.grey[900],
+                          colorText: Colors.white,
+                          snackPosition: SnackPosition.TOP,
+                          borderRadius: 8,
+                          margin: EdgeInsets.all(16),
+                          duration: Duration(seconds: 3),
+                          icon: Icon(Icons.warning, color: Colors.yellow),
+                        );
                       }
                     },
                     child: FadeInDown(
@@ -226,20 +244,27 @@ class SignIn extends StatelessWidget {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               image:
-                                  AssetImage('assets/signIn logo/google.png'),
+                              AssetImage('assets/signIn logo/google.png'),
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: h * 0.02,
+                  ),
                   FadeInDown(
                     duration: Duration(seconds: 1),
                     child: TextButton(
-                        onPressed: () {
-                          Get.toNamed('/signUp');
-                        },
-                        child: Text("Dont have account? Sign Up",style: TextStyle(color: Colors.white),)),
+                      onPressed: () {
+                        Get.toNamed('/signUp');
+                      },
+                      child: Text(
+                        "Don't have an account? Sign Up",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: h * 0.02,
@@ -248,15 +273,25 @@ class SignIn extends StatelessWidget {
                     onTap: () async {
                       String res = await AuthService.authService
                           .signInAccountWithEmailAndPassword(
-                              controller.txtEmail.text,
-                              controller.txtPassword.text);
+                          controller.txtEmail.text,
+                          controller.txtPassword.text);
 
                       User? user = AuthService.authService.getCurrentUser();
                       print(user);
                       if (user != null && res == "Success") {
                         Get.offAndToNamed('/home');
                       } else {
-                        Get.snackbar('SignIn failed!', res);
+                        Get.snackbar(
+                          'SignIn failed!',
+                          res,
+                          backgroundColor: Colors.grey[900],
+                          colorText: Colors.white,
+                          snackPosition: SnackPosition.TOP,
+                          borderRadius: 8,
+                          margin: EdgeInsets.all(16),
+                          duration: Duration(seconds: 3),
+                          icon: Icon(Icons.warning, color: Colors.yellow),
+                        );
                       }
                     },
                     child: FadeInDown(

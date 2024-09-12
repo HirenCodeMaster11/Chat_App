@@ -1,4 +1,5 @@
 import 'package:chat_app/view/Get%20start/start.dart';
+import 'package:chat_app/view/Splash/splash.dart';
 import 'package:chat_app/view/auth/auth_manager.dart';
 import 'package:chat_app/view/auth/sign_in.dart';
 import 'package:chat_app/view/auth/sign_up.dart';
@@ -26,8 +27,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       getPages: [
-        // GetPage(name: '/', page: () => Start(),),
-        GetPage(name: '/', page: () => AuthManager(),),
+        GetPage(name: '/', page: () => SplashScreen(),),
+        GetPage(name: '/start', page: () => Start(),),
+        GetPage(name: '/man', page: () => AuthManager(),),
         GetPage(name: '/signIn', page: () => SignIn(),),
         GetPage(name: '/signUp', page: () => SignUp(),),
         GetPage(name: '/home', page: () => HomePage(),),

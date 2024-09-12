@@ -90,10 +90,11 @@ class SignUp extends StatelessWidget {
                   FadeInLeft(
                     duration: Duration(seconds: 1),
                     child: TextField(
+                      style: TextStyle(color: Colors.white),
                       controller: controller.txtName,
                       cursorColor: Colors.white,
                       decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.person,color: Colors.white,),
+                          prefixIcon: Icon(Icons.person, color: Colors.white),
                           labelText: 'Name',
                           labelStyle: TextStyle(
                               fontSize: w * 0.038,
@@ -101,12 +102,12 @@ class SignUp extends StatelessWidget {
                               fontWeight: FontWeight.w500),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.white)
+                            borderSide: BorderSide(color: Colors.white),
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(
-                                  color: Colors.white, width: 2))),
+                              borderSide:
+                              BorderSide(color: Colors.white, width: 2))),
                     ),
                   ),
                   SizedBox(
@@ -115,10 +116,11 @@ class SignUp extends StatelessWidget {
                   FadeInLeft(
                     duration: Duration(seconds: 1),
                     child: TextField(
+                      style: TextStyle(color: Colors.white),
                       controller: controller.txtEmail,
                       cursorColor: Colors.white,
                       decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.email,color: Colors.white,),
+                          prefixIcon: Icon(Icons.email, color: Colors.white),
                           labelText: 'Your email',
                           labelStyle: TextStyle(
                               fontSize: w * 0.038,
@@ -130,35 +132,33 @@ class SignUp extends StatelessWidget {
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(
-                                  color: Colors.white, width: 2))),
+                              borderSide:
+                              BorderSide(color: Colors.white, width: 2))),
                     ),
                   ),
                   SizedBox(
                     height: h * 0.018,
                   ),
                   Obx(
-                    () => FadeInLeft(
+                        () => FadeInLeft(
                       duration: Duration(seconds: 1),
                       child: TextField(
+                        style: TextStyle(color: Colors.white),
                         controller: controller.txtPassword,
                         cursorColor: Colors.white,
                         obscureText: controller.passwordVisible.value,
                         decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.lock,color: Colors.white,),
+                            prefixIcon: Icon(Icons.lock, color: Colors.white),
                             labelText: 'Password',
                             suffixIcon: IconButton(
                               onPressed: () {
                                 controller.passwordVisible.value =
-                                    !controller.passwordVisible.value;
+                                !controller.passwordVisible.value;
                               },
                               icon: (controller.passwordVisible.value)
-                                  ? Icon(
-                                      Icons.visibility_off,color: Colors.white,
-                                    )
-                                  : Icon(
-                                      Icons.visibility,color: Colors.white,
-                                    ),
+                                  ? Icon(Icons.visibility_off,
+                                  color: Colors.white)
+                                  : Icon(Icons.visibility, color: Colors.white),
                             ),
                             labelStyle: TextStyle(
                                 fontSize: w * 0.038,
@@ -179,27 +179,25 @@ class SignUp extends StatelessWidget {
                     height: h * 0.018,
                   ),
                   Obx(
-                    () => FadeInLeft(
+                        () => FadeInLeft(
                       duration: Duration(seconds: 1),
                       child: TextField(
+                        style: TextStyle(color: Colors.white),
                         controller: controller.txtConPassword,
                         cursorColor: Colors.white,
                         obscureText: controller.conPasswordVisible.value,
                         decoration: InputDecoration(
                             labelText: 'Confirm Password',
-                            prefixIcon: Icon(Icons.lock,color: Colors.white,),
+                            prefixIcon: Icon(Icons.lock, color: Colors.white),
                             suffixIcon: IconButton(
                               onPressed: () {
                                 controller.conPasswordVisible.value =
-                                    !controller.conPasswordVisible.value;
+                                !controller.conPasswordVisible.value;
                               },
                               icon: (controller.conPasswordVisible.value)
-                                  ? Icon(
-                                      Icons.visibility_off,color: Colors.white,
-                                    )
-                                  : Icon(
-                                      Icons.visibility,color: Colors.white,
-                                    ),
+                                  ? Icon(Icons.visibility_off,
+                                  color: Colors.white)
+                                  : Icon(Icons.visibility, color: Colors.white),
                             ),
                             labelStyle: TextStyle(
                                 fontSize: w * 0.038,
@@ -222,10 +220,11 @@ class SignUp extends StatelessWidget {
                   FadeInLeft(
                     duration: Duration(seconds: 1),
                     child: TextField(
+                      style: TextStyle(color: Colors.white),
                       controller: controller.txtPhone,
                       cursorColor: Colors.white,
                       decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.phone,color: Colors.white,),
+                          prefixIcon: Icon(Icons.phone, color: Colors.white),
                           labelText: 'Phone',
                           labelStyle: TextStyle(
                               fontSize: w * 0.038,
@@ -237,8 +236,8 @@ class SignUp extends StatelessWidget {
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(
-                                  color: Colors.white, width: 2))),
+                              borderSide:
+                              BorderSide(color: Colors.white, width: 2))),
                     ),
                   ),
                   SizedBox(
@@ -250,7 +249,10 @@ class SignUp extends StatelessWidget {
                       onPressed: () {
                         Get.back();
                       },
-                      child: Text("Already have account? Sign In",style: TextStyle(color: Colors.white),),
+                      child: Text(
+                        "Already have account? Sign In",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -264,7 +266,7 @@ class SignUp extends StatelessWidget {
                           "Confirm Password: ${controller.txtConPassword.text}");
 
                       if (controller.txtEmail.text.contains(
-                              RegExp(r'^[a-zA-Z0-9._%+-]+@gmail\.com$')) &&
+                          RegExp(r'^[a-zA-Z0-9._%+-]+@gmail\.com$')) &&
                           controller.txtEmail.text.isNotEmpty) {
                         if (controller.txtPassword.text.length >= 8) {
                           if (controller.txtPassword.text ==
@@ -274,8 +276,8 @@ class SignUp extends StatelessWidget {
                                     .hasMatch(controller.txtPhone.text)) {
                               await AuthService.authService
                                   .createAccountWithEmailAndPassword(
-                                      controller.txtEmail.text,
-                                      controller.txtPassword.text);
+                                  controller.txtEmail.text,
+                                  controller.txtPassword.text);
 
                               UserModal user = UserModal(
                                   email: controller.txtEmail.text,
@@ -283,7 +285,7 @@ class SignUp extends StatelessWidget {
                                   phone: controller.txtPhone.text,
                                   token: '------',
                                   image:
-                                      'https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001882.png');
+                                  'https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001882.png');
                               CloudFireStoreService.cloudFireStoreService
                                   .insertUserIntoFireStore(user);
 
@@ -295,18 +297,56 @@ class SignUp extends StatelessWidget {
                               controller.txtPhone.clear();
                               controller.txtName.clear();
                             } else {
-                              Get.snackbar('Invalid!',
-                                  'Mobile number must be 10 digits');
+                              Get.snackbar(
+                                'Invalid!',
+                                'Mobile number must be 10 digits',
+                                backgroundColor: Colors.grey[900],
+                                colorText: Colors.white,
+                                snackPosition: SnackPosition.TOP,
+                                borderRadius: 8,
+                                margin: EdgeInsets.all(16),
+                                duration: Duration(seconds: 3),
+                                icon: Icon(Icons.warning, color: Colors.yellow),
+                              );
                             }
                           } else {
-                            Get.snackbar('Invalid!', 'Passwords not match');
+                            Get.snackbar(
+                              'Invalid!',
+                              'Passwords do not match',
+                              backgroundColor: Colors.grey[900],
+                              colorText: Colors.white,
+                              snackPosition: SnackPosition.TOP,
+                              borderRadius: 8,
+                              margin: EdgeInsets.all(16),
+                              duration: Duration(seconds: 3),
+                              icon: Icon(Icons.warning, color: Colors.yellow),
+                            );
                           }
                         } else {
                           Get.snackbar(
-                              'Invalid!', 'Password must be 8 character long');
+                            'Invalid!',
+                            'Password must be at least 8 characters long',
+                            backgroundColor: Colors.grey[900],
+                            colorText: Colors.white,
+                            snackPosition: SnackPosition.TOP,
+                            borderRadius: 8,
+                            margin: EdgeInsets.all(16),
+                            duration: Duration(seconds: 3),
+                            icon: Icon(Icons.warning, color: Colors.yellow),
+                          );
                         }
                       } else {
-                        Get.snackbar('Invalid!', 'Invalid Email Address');
+                        Get.snackbar(
+                          'Invalid!',
+                          'Invalid Email Address',
+                          backgroundColor: Colors.grey[900],
+                          colorText: Colors.white,
+                          snackPosition: SnackPosition.TOP,
+                          borderRadius: 8,
+                          margin: EdgeInsets.all(16),
+                          duration: Duration(seconds: 3),
+                          icon: Icon(Icons.warning, color: Colors.yellow),
+                        );
                       }
                     },
                     child: FadeInDown(
