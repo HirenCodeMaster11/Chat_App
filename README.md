@@ -1,16 +1,17 @@
-# chat_app
+# Chat_App
 
 A new Flutter project.
 
-## Getting Started
+<h2 align="center">1. Sign In and Sign Up </h2>
 
-This project is a starting point for a Flutter application.
+<div align="center">
+ <video src="https://github.com/user-attachments/assets/a951e0ba-3a14-452d-a271-e1a24cd82d53" type="video/mp4"> 
+</video>
+</div>
 
-A few resources to get you started if this is your first Flutter project:
+<h2 align="center">2. Google Sign In </h2>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<div align="center">
+ <video src="https://github.com/user-attachments/assets/6bbe0015-a59e-4365-a63d-3b014213713a" type="video/mp4"> 
+</video>
+</div>
