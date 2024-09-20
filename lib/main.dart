@@ -1,4 +1,5 @@
 import 'package:chat_app/view/Get%20start/start.dart';
+import 'package:chat_app/view/Setting%20Page/setting.dart';
 import 'package:chat_app/view/Splash/splash.dart';
 import 'package:chat_app/view/auth/auth_manager.dart';
 import 'package:chat_app/view/auth/sign_in.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'firebase_options.dart';
+import 'view/Chat Page/chat.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,11 +30,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       getPages: [
         GetPage(name: '/', page: () => SplashScreen(),),
-        GetPage(name: '/start', page: () => Start(),),
         GetPage(name: '/man', page: () => AuthManager(),),
+        GetPage(name: '/start', page: () => Start(),),
         GetPage(name: '/signIn', page: () => SignIn(),),
         GetPage(name: '/signUp', page: () => SignUp(),),
         GetPage(name: '/home', page: () => HomePage(),),
+        GetPage(name: '/chat', page: () => ChatPage(),),
+        GetPage(name: '/set', page: () => SettingPage(),),
       ],
     );
   }

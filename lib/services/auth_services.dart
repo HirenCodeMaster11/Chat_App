@@ -20,7 +20,7 @@ class AuthService
   async {
     try
     {
-      await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       return "Success";
     }
     catch(e)

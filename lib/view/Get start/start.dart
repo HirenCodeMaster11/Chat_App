@@ -47,31 +47,19 @@ class Start extends StatelessWidget {
                 SizedBox(
                   height: h*0.026,
                 ),
-                FadeInDown(
-                  duration: Duration(seconds: 1),
-                  child: Container(
-                    height: h * 0.071,
-                    width: w * 0.1426,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xff464d67),
-                    ),
-                    alignment: Alignment.center,
-                    child: Container(
-                      height: h * 0.048,
-                      width: w * 0.096,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image:
-                          AssetImage('assets/signIn logo/google.png'),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
                 SizedBox(
                   height: h * 0.026,
+                ),
+                FadeInDown(
+                  duration: Duration(seconds: 1),
+                  child: TextButton(
+                      onPressed: () {
+                        Get.toNamed('/signIn');
+                      },
+                      child: Text("Already have account? Sign In",style: TextStyle(color: Colors.white),)),
+                ),
+                SizedBox(
+                  height: h*0.02,
                 ),
                 Row(
                   children: [
@@ -85,7 +73,7 @@ class Start extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
                         'OR',
-                        style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500),
+                        style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600),
                       ),
                     ),
                     Expanded(
@@ -99,14 +87,7 @@ class Start extends StatelessWidget {
                 SizedBox(
                   height: h * 0.012,
                 ),
-                FadeInDown(
-                  duration: Duration(seconds: 1),
-                  child: TextButton(
-                      onPressed: () {
-                        Get.toNamed('/signIn');
-                      },
-                      child: Text("Already have account? Sign In",style: TextStyle(color: Colors.white),)),
-                ),
+
                 SizedBox(
                   height: h * 0.02,
                 ),

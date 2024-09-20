@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,18 +11,19 @@ class SplashScreen extends StatelessWidget {
     double w = MediaQuery.of(context).size.width;
 
     Timer(
-      Duration(seconds: 3),
-      () {
-        Navigator.of(context).pushReplacementNamed('/start');
+      const Duration(seconds: 4),
+          () {
+        Navigator.of(context).pushReplacementNamed('/man');
       },
     );
+
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
         children: [
           AnimatedContainer(
-            duration: const Duration(seconds: 15),
-            decoration: BoxDecoration(
+            duration: const Duration(seconds: 2),
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   Color(0xff0c0926),
@@ -36,13 +36,24 @@ class SplashScreen extends StatelessWidget {
               ),
             ),
           ),
-          Opacity(
-            opacity: 0.05,
-            // Set your desired opacity (0.0 - fully transparent, 1.0 - fully opaque)
+
+          TweenAnimationBuilder<double>(
+            tween: Tween(begin: 0.0, end: 1.0),
+            duration: const Duration(seconds: 1),
+            curve: Curves.easeInOut,
+            builder: (context, value, child) {
+              return Opacity(
+                opacity: 0.05,
+                child: Transform.scale(
+                  scale: value,
+                  child: child,
+                ),
+              );
+            },
             child: Container(
               height: h * 0.4328,
               width: w * 0.8658,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: AssetImage('assets/message.png'),
@@ -51,16 +62,30 @@ class SplashScreen extends StatelessWidget {
               alignment: Alignment.center,
             ),
           ),
-          Text(
-            'Textit',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.courgette(
-              // Change to your desired font
-              textStyle: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                fontSize: w * 0.16,
-                height: h * -0.001,
+
+          TweenAnimationBuilder<double>(
+            tween: Tween(begin: 0.0, end: 1.0),
+            duration: const Duration(seconds: 2),
+            curve: Curves.easeInOut,
+            builder: (context, value, child) {
+              return Opacity(
+                opacity: value,
+                child: Transform.scale(
+                  scale: value,
+                  child: child,
+                ),
+              );
+            },
+            child: Text(
+              'Textit',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.courgette(
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  fontSize: w * 0.16,
+                  height: h * -0.001,
+                ),
               ),
             ),
           ),

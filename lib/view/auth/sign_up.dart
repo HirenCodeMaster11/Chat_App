@@ -245,14 +245,23 @@ class SignUp extends StatelessWidget {
                   ),
                   FadeInDown(
                     duration: Duration(seconds: 1),
-                    child: TextButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      child: Text(
-                        "Already have account? Sign In",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Already have account?",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: Text(
+                            "Sign In",
+                            style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(
@@ -271,7 +280,7 @@ class SignUp extends StatelessWidget {
                         if (controller.txtPassword.text.length >= 8) {
                           if (controller.txtPassword.text ==
                               controller.txtConPassword.text) {
-                            if (controller.txtPhone.text == 10 &&
+                            if (controller.txtPhone.text.length == 10 &&
                                 RegExp(r'^[0-9]+$')
                                     .hasMatch(controller.txtPhone.text)) {
                               await AuthService.authService
@@ -285,11 +294,11 @@ class SignUp extends StatelessWidget {
                                   phone: controller.txtPhone.text,
                                   token: '------',
                                   image:
-                                  'https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001882.png');
+                                  'https://www.pngkit.com/png/detail/25-258694_cool-avatar-transparent-image-cool-boy-avatar.png');
                               CloudFireStoreService.cloudFireStoreService
                                   .insertUserIntoFireStore(user);
 
-                              Get.back();
+                              Get.offAndToNamed('/home');
 
                               controller.txtEmail.clear();
                               controller.txtPassword.clear();
