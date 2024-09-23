@@ -1,9 +1,11 @@
 import 'package:chat_app/modal/user.dart';
 import 'package:chat_app/services/auth_services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../services/cloud_fireStore_service.dart';
+import '../../services/google_auth_service.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
@@ -93,30 +95,85 @@ class SettingPage extends StatelessWidget {
                         ),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 12.0,right: 12,top: 24),
+                        padding: const EdgeInsets.only(
+                            left: 12.0, right: 12, top: 24),
                         child: Column(
                           children: [
                             Row(
                               children: [
                                 CircleAvatar(
                                   radius: h * 0.036,
-                                  backgroundImage: NetworkImage(userModal.image),
+                                  backgroundImage:
+                                      NetworkImage(userModal.image),
                                 ),
-                                SizedBox(width: w*0.04,),
+                                SizedBox(
+                                  width: w * 0.04,
+                                ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(userModal.name,style: TextStyle(fontWeight: FontWeight.bold),),
+                                    Text(
+                                      userModal.name,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                     Text(userModal.phone),
                                   ],
                                 ),
                                 Spacer(),
-                                Icon(Icons.qr_code_scanner,color: Color(0xff3e4a7a),),
+                                Icon(
+                                  Icons.qr_code_scanner,
+                                  color: Color(0xff3e4a7a),
+                                ),
                               ],
                             ),
-                            SizedBox(height: h*0.02,),
-                            Divider(color: Color(0xfff5f7f6,),height: h*0.001,),
+                            SizedBox(
+                              height: h * 0.02,
+                            ),
+                            Divider(
+                              color: Color(
+                                0xfff5f7f6,
+                              ),
+                              height: h * 0.001,
+                            ),
+                            SizedBox(
+                              height: h * 0.02,
+                            ),
+                            GestureDetector(
+                              onTap: () async {
+                                await AuthService.authService.signOut();
+                                await GoogleAuthService.googleAuthService
+                                    .signOutFromGoogle();
 
+                              },
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: h * 0.0616,
+                                    width: w * 0.1263,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color(0xffdeebfe),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Icon(
+                                      Icons.logout,
+                                      color: Color(0xffc7c9c9),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: w * 0.06,
+                                  ),
+                                  Text(
+                                    'Log out',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                        fontSize: w * 0.05,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),

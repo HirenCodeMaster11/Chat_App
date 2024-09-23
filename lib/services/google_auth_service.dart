@@ -35,5 +35,6 @@ class GoogleAuthService {
   Future<void> signOutFromGoogle()
   async {
     await googleSignIn.signOut();
+    Get.offAndToNamed('/signIn');
   }
 }

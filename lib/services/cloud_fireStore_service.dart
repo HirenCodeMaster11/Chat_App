@@ -21,9 +21,9 @@ class CloudFireStoreService {
         'image': user.image,
         'phone': user.phone,
         'token': user.token,
-        'isOnline': true,  // Default status is online when user signs in
-        'lastSeen': DateTime.now(),  // Last seen updated
-        'isTyping': false,  // Default typing status
+        'isTyping': user.isTyping,
+        'isOnline': user.isOnline,
+        'read': user.isRead,
       },
     );
   }
@@ -89,25 +89,13 @@ class CloudFireStoreService {
         .doc(dcId).delete();
   }
 
-  // Update receiver's online status
-  Future<void> updateReceiverOnlineStatus(String receiverEmail, bool isOnline) async {
-    await fireStore.collection('users').doc(receiverEmail).update({
-      'isOnline': isOnline,
-      'lastSeen': isOnline ? DateTime.now() : FieldValue.serverTimestamp(),
-    });
-  }
+  Future<void> updateMessageReadStatus(String receiver, String dcId) async {
+    String? sender = AuthService.authService.getCurrentUser()!.email;
+    List<String> doc = [sender!, receiver];
+    doc.sort();
+    String docId = doc.join("_");
 
-// Update receiver's typing status
-  Future<void> updateReceiverTypingStatus(String receiverEmail, bool isTyping) async {
-    await fireStore.collection('users').doc(receiverEmail).update({
-      'isTyping': isTyping,
-    });
-  }
-
-// Update receiver's last seen time
-  Future<void> updateReceiverLastSeen(String receiverEmail) async {
-    await fireStore.collection('users').doc(receiverEmail).update({
-      'lastSeen': DateTime.now(),
-    });
+    await fireStore.collection('chatroom').doc(docId).collection('chat')
+        .doc(dcId).update({'isRead': true});
   }
 }
