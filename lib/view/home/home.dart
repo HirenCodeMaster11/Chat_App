@@ -1,12 +1,82 @@
+import 'dart:developer';
+
 import 'package:chat_app/modal/user.dart';
 import 'package:chat_app/services/auth_services.dart';
 import 'package:chat_app/services/cloud_fireStore_service.dart';
 import 'package:chat_app/view/Chat%20Page/chat.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    // TODO: implement initState
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+    CloudFireStoreService.cloudFireStoreService.toggleOnlineStatus(
+      true,
+      Timestamp.now(),
+      false,
+    );
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // TODO: implement didChangeAppLifecycleState
+    super.didChangeAppLifecycleState(state);
+    if(state == AppLifecycleState.paused){
+      CloudFireStoreService.cloudFireStoreService.toggleOnlineStatus(
+        false,
+        Timestamp.now(),
+        false,
+      );
+      log('\n\n\n\npaused');
+    } else if(state == AppLifecycleState.resumed){
+      CloudFireStoreService.cloudFireStoreService.toggleOnlineStatus(
+        true,
+        Timestamp.now(),
+        false,
+      );
+      log('\n\n\n\nresumed');
+    } else if(state == AppLifecycleState.detached){
+      CloudFireStoreService.cloudFireStoreService.toggleOnlineStatus(
+        false,
+        Timestamp.now(),
+        false,
+      );
+      log('\n\n\n\ndetached');
+    } else if(state == AppLifecycleState.hidden){
+      CloudFireStoreService.cloudFireStoreService.toggleOnlineStatus(
+        false,
+        Timestamp.now(),
+        false,
+      );
+      log('\n\n\n\nhidden');
+    }
+    else if(state == AppLifecycleState.inactive){
+      CloudFireStoreService.cloudFireStoreService.toggleOnlineStatus(
+        false,
+        Timestamp.now(),
+        false,
+      );
+      log('\n\n\n\ninactive');
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,8 +142,15 @@ class HomePage extends StatelessWidget {
                         ),
                         CircleAvatar(
                           radius: h * 0.028,
-                          backgroundImage: AuthService.authService.getCurrentUser()?.photoURL != null
-                              ? NetworkImage(AuthService.authService.getCurrentUser()!.photoURL!) : NetworkImage('https://www.pngkit.com/png/detail/25-258694_cool-avatar-transparent-image-cool-boy-avatar.png'),
+                          backgroundImage: AuthService.authService
+                                      .getCurrentUser()
+                                      ?.photoURL !=
+                                  null
+                              ? NetworkImage(AuthService.authService
+                                  .getCurrentUser()!
+                                  .photoURL!)
+                              : NetworkImage(
+                                  'https://www.pngkit.com/png/detail/25-258694_cool-avatar-transparent-image-cool-boy-avatar.png'),
                         ),
                       ],
                     ),
@@ -96,15 +173,15 @@ class HomePage extends StatelessWidget {
                                 backgroundImage:
                                     NetworkImage(userList[index].image),
                               ),
-                              SizedBox(height: h*0.01),
+                              SizedBox(height: h * 0.01),
                               SizedBox(
-                                width: w*0.18,
+                                width: w * 0.18,
                                 child: Text(
                                   textAlign: TextAlign.center,
                                   userList[index].name,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                      fontSize: w*0.034, color: Colors.white),
+                                      fontSize: w * 0.034, color: Colors.white),
                                 ),
                               ),
                             ],
@@ -128,8 +205,12 @@ class HomePage extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: ListTile(
                             onTap: () {
-                              chatController.getReceiver(userList[index].email, userList[index].name,userList[index].image);
-                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatPage(img: userList[index].image),));
+                              chatController.getReceiver(userList[index].email,
+                                  userList[index].name, userList[index].image);
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    ChatPage(img: userList[index].image),
+                              ));
                             },
                             leading: CircleAvatar(
                               radius: w * 0.066,
@@ -140,7 +221,12 @@ class HomePage extends StatelessWidget {
                             trailing: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('2 min ago',style: TextStyle(color: Color(0xffbcbebd),fontWeight: FontWeight.w400),),
+                                Text(
+                                  '2 min ago',
+                                  style: TextStyle(
+                                      color: Color(0xffbcbebd),
+                                      fontWeight: FontWeight.w400),
+                                ),
                                 SizedBox(height: 4),
                                 CircleAvatar(
                                   radius: 10,
@@ -208,7 +294,9 @@ class _HomeBottomNavigationState extends State<HomeBottomNavigation> {
       ),
       items: const [
         BottomNavigationBarItem(
-          icon: Icon(Icons.message,),
+          icon: Icon(
+            Icons.message,
+          ),
           label: 'Message',
         ),
         BottomNavigationBarItem(

@@ -21,9 +21,10 @@ class CloudFireStoreService {
         'image': user.image,
         'phone': user.phone,
         'token': user.token,
-        'isTyping': user.isTyping,
-        'isOnline': user.isOnline,
+        'isTyping': false,
+        'isOnline': false,
         'read': user.isRead,
+        'lastSeen': Timestamp.now(),
       },
     );
   }
@@ -98,4 +99,25 @@ class CloudFireStoreService {
     await fireStore.collection('chatroom').doc(docId).collection('chat')
         .doc(dcId).update({'isRead': true});
   }
+
+  Future<void> toggleOnlineStatus(
+      bool status, Timestamp lastSeen, bool isTyping) async {
+    String email = AuthService.authService.getCurrentUser()!.email!;
+    await fireStore.collection("users").doc(email).update({
+      'isOnline': status,
+      'lastSeen': lastSeen,
+      'isTyping': isTyping,
+    });
+  }
+
+  // void changeTypingStatusReceiver(bool status){
+  //   String senderEmail = AuthService.authService.getCurrentUser()!.email!;
+  //   fireStore.collection("users").doc(senderEmail).update({"isTyping": status});
+  // }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> checkUserIsOnlineOrNot(
+      String email) {
+    return fireStore.collection("users").doc(email).snapshots();
+  }
+
 }

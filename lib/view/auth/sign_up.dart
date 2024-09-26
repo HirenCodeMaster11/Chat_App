@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:chat_app/controller/auth_controller.dart';
 import 'package:chat_app/services/auth_services.dart';
 import 'package:chat_app/services/cloud_fireStore_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -289,6 +290,9 @@ class SignUp extends StatelessWidget {
                                   controller.txtPassword.text);
 
                               UserModal user = UserModal(
+                                isTyping: true,
+                                  isOnline: true,
+                                  lastSeen: Timestamp.now(),
                                   email: controller.txtEmail.text,
                                   name: controller.txtName.text,
                                   phone: controller.txtPhone.text,

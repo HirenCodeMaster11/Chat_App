@@ -2,6 +2,7 @@ import 'package:chat_app/controller/chat_controller.dart';
 import 'package:chat_app/modal/chat.dart';
 import 'package:chat_app/services/auth_services.dart';
 import 'package:chat_app/services/cloud_fireStore_service.dart';
+import 'package:chat_app/services/local%20notification%20service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,11 @@ var chatController = Get.put(ChatController());
 
 class ChatPage extends StatelessWidget {
   final String? img;
-  final ScrollController _scrollController = ScrollController();
 
   ChatPage({super.key, this.img});
+
+  // FocusNode focusNode = FocusNode();
+  final ScrollController _scrollController = ScrollController();
 
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -25,14 +28,8 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery
-        .of(context)
-        .size
-        .height;
-    double w = MediaQuery
-        .of(context)
-        .size
-        .width;
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -66,9 +63,37 @@ class ChatPage extends StatelessWidget {
                       style: TextStyle(fontSize: w * 0.044),
                       overflow: TextOverflow.ellipsis,
                     ),
-                    Text(
-                      'Active now',
-                      style: TextStyle(color: Colors.grey, fontSize: w * 0.032),
+                    StreamBuilder(
+                      stream: CloudFireStoreService.cloudFireStoreService
+                          .checkUserIsOnlineOrNot(
+                              chatController.receiverEmail.value),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return Text(snapshot.error.toString());
+                        }
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Text('');
+                        }
+
+                        Map? user = snapshot.data!.data();
+                        String nightDay = '';
+                        if (user!['lastSeen'].toDate().hour > 11) {
+                          nightDay = 'PM';
+                        } else {
+                          nightDay = 'AM';
+                        }
+                        return Text(
+                          user['isOnline']
+                              ? (user['isTyping'])
+                                  ? 'Typing...'
+                                  : 'Online'
+                              : 'Last seen at ${user['lastSeen'].toDate().hour % 12}:${user['lastSeen'].toDate().minute} $nightDay',
+                          style: const TextStyle(
+                            color: Colors.grey,
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -120,79 +145,79 @@ class ChatPage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      ...List.generate(
-                          chatList.length,
-                              (index) {
-                            if (chatList[index].isRead == false &&
-                                chatList[index].receiver ==
-                                    AuthService.authService.getCurrentUser()!.email) {
-                              CloudFireStoreService.cloudFireStoreService.updateMessageReadStatus(
+                      ...List.generate(chatList.length, (index) {
+                        if (chatList[index].isRead == false &&
+                            chatList[index].receiver ==
+                                AuthService.authService
+                                    .getCurrentUser()!
+                                    .email) {
+                          CloudFireStoreService.cloudFireStoreService
+                              .updateMessageReadStatus(
                                   chatController.receiverEmail.value,
                                   docIdList[index]);
-                            }
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                  bottom: 8, right: 14, left: 14),
-                              child: Container(
-                                alignment: (chatList[index].sender ==
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                              bottom: 8, right: 14, left: 14),
+                          child: Container(
+                            alignment: (chatList[index].sender ==
                                     AuthService.authService
                                         .getCurrentUser()!
                                         .email!)
-                                    ? Alignment.centerRight
-                                    : Alignment.centerLeft,
-                                child: Container(
-                                  padding: const EdgeInsets.all(8.0),
-                                  decoration: BoxDecoration(
-                                    color: (chatList[index].sender ==
+                                ? Alignment.centerRight
+                                : Alignment.centerLeft,
+                            child: Container(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                color: (chatList[index].sender ==
                                         AuthService.authService
                                             .getCurrentUser()!
                                             .email!)
-                                        ? Color(0xff3D4A74)
-                                        : Color(0xffF2F7FB),
-                                    borderRadius: (chatList[index].sender ==
+                                    ? Color(0xff3D4A74)
+                                    : Color(0xffF2F7FB),
+                                borderRadius: (chatList[index].sender ==
                                         AuthService.authService
                                             .getCurrentUser()!
                                             .email!)
-                                        ? BorderRadius.only(
-                                      topLeft: Radius.circular(13),
-                                      bottomLeft: Radius.circular(13),
-                                      bottomRight: Radius.circular(13),
-                                    )
-                                        : BorderRadius.only(
-                                      topRight: Radius.circular(13),
-                                      bottomLeft: Radius.circular(13),
-                                      bottomRight: Radius.circular(13),
-                                    ),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      GestureDetector(
-                                        onLongPress: () {
-                                          if (chatList[index].sender ==
-                                              AuthService.authService
-                                                  .getCurrentUser()!
-                                                  .email!) {
-                                            chatController.txtUpdateMessage =
-                                                TextEditingController(
-                                                    text: chatList[index]
-                                                        .message);
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return AlertDialog(
-                                                  title: Text('Update'),
-                                                  content: TextField(
-                                                    controller: chatController
-                                                        .txtUpdateMessage,
-                                                  ),
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        String dcId =
+                                    ? BorderRadius.only(
+                                        topLeft: Radius.circular(13),
+                                        bottomLeft: Radius.circular(13),
+                                        bottomRight: Radius.circular(13),
+                                      )
+                                    : BorderRadius.only(
+                                        topRight: Radius.circular(13),
+                                        bottomLeft: Radius.circular(13),
+                                        bottomRight: Radius.circular(13),
+                                      ),
+                              ),
+                              child: Column(
+                                children: [
+                                  GestureDetector(
+                                    onLongPress: () {
+                                      if (chatList[index].sender ==
+                                          AuthService.authService
+                                              .getCurrentUser()!
+                                              .email!) {
+                                        chatController.txtUpdateMessage =
+                                            TextEditingController(
+                                                text: chatList[index].message);
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: Text('Update'),
+                                              content: TextField(
+                                                controller: chatController
+                                                    .txtUpdateMessage,
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    String dcId =
                                                         docIdList[index];
-                                                        CloudFireStoreService
-                                                            .cloudFireStoreService
-                                                            .updateChat(
+                                                    CloudFireStoreService
+                                                        .cloudFireStoreService
+                                                        .updateChat(
                                                             chatController
                                                                 .receiverEmail
                                                                 .value,
@@ -200,57 +225,88 @@ class ChatPage extends StatelessWidget {
                                                             chatController
                                                                 .txtUpdateMessage
                                                                 .text);
-                                                        Get.back();
-                                                      },
-                                                      child: Text('Update'),
-                                                    ),
-                                                  ],
-                                                );
-                                              },
+                                                    Get.back();
+                                                  },
+                                                  child: Text('Update'),
+                                                ),
+                                              ],
                                             );
-                                          }
-                                        },
-                                        onDoubleTap: () {
-                                          if (chatList[index].sender ==
-                                              AuthService.authService
-                                                  .getCurrentUser()!
-                                                  .email!) {
-                                            CloudFireStoreService
-                                                .cloudFireStoreService
-                                                .removeChat(
-                                                chatController.receiverEmail
-                                                    .value, docIdList[index]);
-                                          }
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              chatList[index].message,
-                                              style: TextStyle(
-                                                color: chatList[index].sender == AuthService.authService.getCurrentUser()!.email!
-                                                    ? Colors.white // Text color for sent messages
-                                                    : Colors.black, // Text color for received messages
-                                                fontSize: w * 0.04,
-                                              ),
-                                            ),
-                                            SizedBox(height: 5), // Add some space between text and icon
-                                            if (chatList[index].isRead &&
-                                                chatList[index].sender == AuthService.authService.getCurrentUser()!.email!)
-                                              Icon(
-                                                Icons.done_all_rounded,
-                                                color: Colors.blue.shade400,
-                                                size: 18,
-                                              ),
-                                          ],
+                                          },
+                                        );
+                                      }
+                                    },
+                                    onDoubleTap: () {
+                                      if (chatList[index].sender ==
+                                          AuthService.authService
+                                              .getCurrentUser()!
+                                              .email!) {
+                                        CloudFireStoreService
+                                            .cloudFireStoreService
+                                            .removeChat(
+                                                chatController
+                                                    .receiverEmail.value,
+                                                docIdList[index]);
+                                      }
+                                    },
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          chatList[index].message,
+                                          style: TextStyle(
+                                            color: chatList[index].sender ==
+                                                    AuthService.authService
+                                                        .getCurrentUser()!
+                                                        .email!
+                                                ? Colors
+                                                    .white // Text color for sent messages
+                                                : Colors.black,
+                                            // Text color for received messages
+                                            fontSize: w * 0.042,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                        SizedBox(
+                                          height: h * 0.002,
+                                          width: w * 0.02,
+                                        ),
+                                        Text(
+                                          chatController.formatTimestamp(
+                                              chatList[index].time),
+                                          style: TextStyle(
+                                            color: chatList[index].sender ==
+                                                    AuthService.authService
+                                                        .getCurrentUser()!
+                                                        .email!
+                                                ? Colors
+                                                    .white // Time color for sent messages
+                                                : Colors.grey.shade600,
+                                            // Time color for received messages
+                                            fontSize: w * 0.0344, // Font size
+                                          ),
+                                        ),
+                                        const SizedBox(width: 5),
+                                        if (chatList[index].isRead &&
+                                            chatList[index].sender ==
+                                                AuthService.authService
+                                                    .getCurrentUser()!
+                                                    .email!)
+                                          Icon(
+                                            Icons.done_all_rounded,
+                                            // Read status icon
+                                            color: Colors.blue.shade400,
+                                            size: 18,
+                                          ),
+                                      ],
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
-                            );
-                          }
-                      ),
+                            ),
+                          ),
+                        );
+                      }),
                     ],
                   ),
                 );
@@ -268,6 +324,24 @@ class ChatPage extends StatelessWidget {
               ),
               Expanded(
                 child: TextField(
+                  // focusNode: focusNode,
+                  onChanged: (value) {
+                    chatController.txtMessage.text = value;
+                    CloudFireStoreService.cloudFireStoreService
+                        .toggleOnlineStatus(
+                      true,
+                      Timestamp.now(),
+                      true,
+                    );
+                  },
+                  onTapOutside: (event) {
+                    CloudFireStoreService.cloudFireStoreService
+                        .toggleOnlineStatus(
+                      true,
+                      Timestamp.now(),
+                      false,
+                    );
+                  },
                   cursorColor: Colors.black,
                   controller: chatController.txtMessage,
                   decoration: InputDecoration(
@@ -276,8 +350,7 @@ class ChatPage extends StatelessWidget {
                     fillColor: Colors.grey.shade100,
                     hintText: 'Write your message',
                     hintStyle: TextStyle(
-                        color: Color(0xffb5b9ba),
-                        fontWeight: FontWeight.w400),
+                        color: Color(0xffb5b9ba), fontWeight: FontWeight.w400),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(
@@ -303,12 +376,24 @@ class ChatPage extends StatelessWidget {
                             message: chatController.txtMessage.text,
                             time: Timestamp.now(),
                           );
-                          chatController.txtMessage.clear();
                           await CloudFireStoreService.cloudFireStoreService
                               .addChatInFireStore(chat);
 
-                          // Clear message and scroll to the bottom after sending
+                          await LocalNotificationService.notificationService
+                              .showNotification(
+                                  AuthService.authService
+                                      .getCurrentUser()!
+                                      .email!,
+                                  chatController.txtMessage.text);
+
+                          chatController.txtMessage.clear();
                           _scrollToBottom();
+                          CloudFireStoreService.cloudFireStoreService
+                              .toggleOnlineStatus(
+                            true,
+                            Timestamp.now(),
+                            false,
+                          );
                         }
                       },
                       icon: Icon(

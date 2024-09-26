@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserModal {
   String email, name, image, phone, token;
   bool isRead;
+  Timestamp lastSeen;
   bool isTyping,isOnline;
 
   UserModal({
@@ -11,8 +14,9 @@ class UserModal {
     required this.image,
     this.isRead =
         false, // Default value is false, as messages are initially unread
-    this.isTyping = false,
-    this.isOnline = false,
+    required this.isTyping,
+    required this.isOnline,
+    required this.lastSeen,
   });
 
   factory UserModal.fromMap(Map m1) {
@@ -25,6 +29,7 @@ class UserModal {
       isRead: m1['isRead'] ?? false,
       isTyping: m1['isTyping'] ?? false,
       isOnline: m1['isOnline'] ?? false,
+      lastSeen: m1['lastSeen'],
     );
   }
 
@@ -38,6 +43,7 @@ class UserModal {
       'isTyping': user.isTyping,
       'read': user.isRead,
       'isOnline' : user.isOnline,
+      'lastSeen' : user.lastSeen,
     };
   }
 }

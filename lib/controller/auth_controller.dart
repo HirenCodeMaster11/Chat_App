@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,9 +32,12 @@ class AuthController extends GetxController
       await AuthService.authService.createAccountWithEmailAndPassword(email, password);
 
       UserModal user = UserModal(
+        lastSeen: Timestamp.now(),
         email: email,
         name: name,
         phone: phone,
+        isOnline: true,
+        isTyping: true,
         token: '------',
         image:'https://www.pngkit.com/png/detail/25-258694_cool-avatar-transparent-image-cool-boy-avatar.png'
       );

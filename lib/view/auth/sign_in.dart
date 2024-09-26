@@ -3,6 +3,7 @@ import 'package:chat_app/controller/auth_controller.dart';
 import 'package:chat_app/modal/user.dart';
 import 'package:chat_app/services/auth_services.dart';
 import 'package:chat_app/services/google_auth_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -184,6 +185,9 @@ class SignIn extends StatelessWidget {
 
                           if (currentUser != null) {
                             UserModal user = UserModal(
+                              isOnline: true,
+                              isTyping: true,
+                              lastSeen: Timestamp.now(),
                               email: currentUser.email!,
                               name: currentUser.displayName ?? 'No Name',
                               phone: currentUser.phoneNumber ?? 'No Phone',

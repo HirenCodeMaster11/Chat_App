@@ -1,3 +1,5 @@
+import 'package:chat_app/services/firebase_messaging_service.dart';
+import 'package:chat_app/services/local%20notification%20service.dart';
 import 'package:chat_app/view/Get%20start/start.dart';
 import 'package:chat_app/view/Setting%20Page/setting.dart';
 import 'package:chat_app/view/Splash/splash.dart';
@@ -17,7 +19,12 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
+
+  await LocalNotificationService.notificationService.initNotificationService();
+
+  await FirebaseMessagingService.fm.requestPermission();
+  await FirebaseMessagingService.fm.getDeviceToken();
+
   runApp(const MyApp());
 }
 
