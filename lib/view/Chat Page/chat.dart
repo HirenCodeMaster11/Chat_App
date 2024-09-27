@@ -161,34 +161,34 @@ class ChatPage extends StatelessWidget {
                               bottom: 8, right: 14, left: 14),
                           child: Container(
                             alignment: (chatList[index].sender ==
-                                    AuthService.authService
-                                        .getCurrentUser()!
-                                        .email!)
+                                AuthService.authService
+                                    .getCurrentUser()!
+                                    .email!)
                                 ? Alignment.centerRight
                                 : Alignment.centerLeft,
                             child: Container(
                               padding: const EdgeInsets.all(8.0),
                               decoration: BoxDecoration(
                                 color: (chatList[index].sender ==
-                                        AuthService.authService
-                                            .getCurrentUser()!
-                                            .email!)
+                                    AuthService.authService
+                                        .getCurrentUser()!
+                                        .email!)
                                     ? Color(0xff3D4A74)
                                     : Color(0xffF2F7FB),
                                 borderRadius: (chatList[index].sender ==
-                                        AuthService.authService
-                                            .getCurrentUser()!
-                                            .email!)
+                                    AuthService.authService
+                                        .getCurrentUser()!
+                                        .email!)
                                     ? BorderRadius.only(
-                                        topLeft: Radius.circular(13),
-                                        bottomLeft: Radius.circular(13),
-                                        bottomRight: Radius.circular(13),
-                                      )
+                                  topLeft: Radius.circular(13),
+                                  bottomLeft: Radius.circular(13),
+                                  bottomRight: Radius.circular(13),
+                                )
                                     : BorderRadius.only(
-                                        topRight: Radius.circular(13),
-                                        bottomLeft: Radius.circular(13),
-                                        bottomRight: Radius.circular(13),
-                                      ),
+                                  topRight: Radius.circular(13),
+                                  bottomLeft: Radius.circular(13),
+                                  bottomRight: Radius.circular(13),
+                                ),
                               ),
                               child: Column(
                                 children: [
@@ -214,17 +214,17 @@ class ChatPage extends StatelessWidget {
                                                 TextButton(
                                                   onPressed: () {
                                                     String dcId =
-                                                        docIdList[index];
+                                                    docIdList[index];
                                                     CloudFireStoreService
                                                         .cloudFireStoreService
                                                         .updateChat(
-                                                            chatController
-                                                                .receiverEmail
-                                                                .value,
-                                                            dcId,
-                                                            chatController
-                                                                .txtUpdateMessage
-                                                                .text);
+                                                        chatController
+                                                            .receiverEmail
+                                                            .value,
+                                                        dcId,
+                                                        chatController
+                                                            .txtUpdateMessage
+                                                            .text);
                                                     Get.back();
                                                   },
                                                   child: Text('Update'),
@@ -243,25 +243,25 @@ class ChatPage extends StatelessWidget {
                                         CloudFireStoreService
                                             .cloudFireStoreService
                                             .removeChat(
-                                                chatController
-                                                    .receiverEmail.value,
-                                                docIdList[index]);
+                                            chatController
+                                                .receiverEmail.value,
+                                            docIdList[index]);
                                       }
                                     },
                                     child: Row(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                      CrossAxisAlignment.end,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(
                                           chatList[index].message,
                                           style: TextStyle(
                                             color: chatList[index].sender ==
-                                                    AuthService.authService
-                                                        .getCurrentUser()!
-                                                        .email!
+                                                AuthService.authService
+                                                    .getCurrentUser()!
+                                                    .email!
                                                 ? Colors
-                                                    .white // Text color for sent messages
+                                                .white // Text color for sent messages
                                                 : Colors.black,
                                             // Text color for received messages
                                             fontSize: w * 0.042,
@@ -276,11 +276,11 @@ class ChatPage extends StatelessWidget {
                                               chatList[index].time),
                                           style: TextStyle(
                                             color: chatList[index].sender ==
-                                                    AuthService.authService
-                                                        .getCurrentUser()!
-                                                        .email!
+                                                AuthService.authService
+                                                    .getCurrentUser()!
+                                                    .email!
                                                 ? Colors
-                                                    .white // Time color for sent messages
+                                                .white // Time color for sent messages
                                                 : Colors.grey.shade600,
                                             // Time color for received messages
                                             fontSize: w * 0.0344, // Font size
