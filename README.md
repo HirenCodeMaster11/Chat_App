@@ -68,4 +68,23 @@ A new Flutter project.
 </div>
 <div align="center">
 <a href="https://github.com/HirenCodeMaster11/Chat_App/blob/master/lib/view/Setting%20Page/setting.dart">-> 📂 Go To Dart File 📂 <-</a>
-</div>
+</div><br>
+
+## Description :
+
+This is a Flutter-based Chat Application that uses Firebase for backend services. The app supports real-time messaging, theme customization, and more. It is built with a focus on performance, user experience, and simplicity.
+
+Features:
+- Real-Time Messaging: Send and receive messages instantly using Firebase Cloud Firestore.
+- User Authentication: Sign up, log in, and log out using Firebase Authentication.
+- User Status: Display user online/offline status and last seen time.
+- Message Updates: Edit and delete sent messages.
+- Typing Indicator: Real-time typing status for users in the chat.
+- Profile Customization: Change and update user profile picture and details.
+- Bottom Navigation: Easy navigation between chat list, settings, and profile sections.
+- Cloud Firestore Integration: Chat data is stored and managed in Firestore, ensuring scalability and real-time updates.
+
+Tech Stack:
+- Firebase Authentication: For user sign-in and sign-up functionality.
+- Firebase Cloud Firestore: For real-time database and chat storage.
+- GetX: State management and navigation.
