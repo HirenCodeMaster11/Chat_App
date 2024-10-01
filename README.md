@@ -3,11 +3,7 @@
 A new Flutter project.
 
 <h2 align="center">1. Chat app video recording </h2>
-
-<div align="center">
- <video src="https://github.com/user-attachments/assets/304be10c-0786-4cba-94c4-c1892889b571" type="video/mp4"> 
-</video>
-</div>
+https://drive.google.com/drive/folders/19ppKZfK1A2tdLwLDT2hp525Koy5KwXZE?usp=drive_link
 
 <h2 align="center">1. Sign In and Sign Up </h2>
 
